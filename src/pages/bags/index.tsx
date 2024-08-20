@@ -1,41 +1,51 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from './bags.module.css';
+import Image from 'next/image';
 
 const ReportFoundBag = () => {
   const [color, setColor] = useState('');
   const [type, setType] = useState('');
   const [contents, setContents] = useState('');
   const [idProof, setIdProof] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [foundLocation, setFoundLocation] = useState('');
   const router = useRouter();
 
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-    const response = await fetch('http://localhost:5002/api/bags', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        color,
-        type,
-        contents,
-        id_proof: idProof,
-        image_url: imageUrl,
-        found_location: foundLocation,
-      }),
-    });
+    const formData = new FormData();
+    formData.append('color', color);
+    formData.append('type', type);
+    formData.append('contents', contents);
+    formData.append('id_proof', idProof);
+    formData.append('found_location', foundLocation);
 
-    if (response.ok) {
-      alert('Bag reported successfully.');
-      resetForm();
-      window.location.reload(); 
-    } else {
-      alert('Failed to report the bag.');
+    if (imageFile) {
+      formData.append('image', imageFile); 
+    }
+
+    try {
+      const response = await fetch('http://localhost:5002/api/bags', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+        body: formData,
+      });
+  
+      if (response.ok) {
+        alert('Bag reported successfully.');
+        resetForm();
+        router.push('/dashboard'); // Redirect to dashboard on success
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to report the bag: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error('Error reporting the bag:', error);
+      alert('An unexpected error occurred. Please try again later.');
     }
   };
 
@@ -44,12 +54,20 @@ const ReportFoundBag = () => {
     setType('');
     setContents('');
     setIdProof('');
-    setImageUrl('');
+    setImageFile(null);
     setFoundLocation('');
   };
 
   const handleGoToDashboard = () => {
     router.push('/dashboard'); 
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setImageFile(e.target.files[0]);
+      console.log(e.target.files[0]);
+      
+    }
   };
 
   return (
@@ -86,10 +104,8 @@ const ReportFoundBag = () => {
           className={styles.inputField}
         />
         <input
-          type="text"
-          placeholder="Image URL (optional)"
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
+          type="file"
+          onChange={handleImageChange}
           className={styles.inputField}
         />
         <input

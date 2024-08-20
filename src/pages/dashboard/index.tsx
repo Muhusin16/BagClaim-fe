@@ -1,4 +1,6 @@
+// pages/dashboard.tsx
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Navbar from "@/app/navbar";
 import styles from './Dashboard.module.css';
 
@@ -18,6 +20,7 @@ const Dashboard = () => {
     type: '',
     found_location: ''
   });
+  const router = useRouter();
 
   const fetchBags = async () => {
     const query = new URLSearchParams(searchParams).toString();
@@ -40,6 +43,10 @@ const Dashboard = () => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     fetchBags();
+  };
+
+  const handleViewDetails = (id: number) => {
+    router.push(`/bags/${id}`);
   };
 
   return (
@@ -82,7 +89,13 @@ const Dashboard = () => {
               {bags.map((bag) => (
                 <li key={bag.id} className={styles.listItem}>
                   <strong>{bag.color} {bag.type}</strong> - Found at: {bag.found_location}
-                  
+                  <br />
+                  <button
+                    onClick={() => handleViewDetails(bag.id)}
+                    className={styles.viewButton}
+                  >
+                    View Details
+                  </button>
                 </li>
               ))}
             </ul>
