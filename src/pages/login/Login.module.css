@@ -1,0 +1,78 @@
+/* Login.module.css */
+
+.formContainer {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .inputField {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #f8f8f8;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .inputField:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    outline: none;
+  }
+  
+  .submitButton {
+    width: 100%;
+    padding: 12px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .submitButton:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+  }
+  
+  .submitButton:active {
+    transform: translateY(0);
+  }
+  
+  .heading {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  @media (max-width: 600px) {
+    .formContainer {
+      padding: 20px;
+    }
+  
+    .heading {
+      font-size: 22px;
+    }
+  
+    .inputField {
+      padding: 10px;
+      font-size: 15px;
+    }
+  
+    .submitButton {
+      font-size: 16px;
+      padding: 10px;
+    }
+  }
+  
