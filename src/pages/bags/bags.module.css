@@ -1,3 +1,9 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .formContainer {
   max-width: 500px;
   margin: 0 auto;
@@ -54,17 +60,7 @@
 
 .submitButton:hover {
   background-color: #45a049;
-  transform: translateY(-2px);
-}
-
-.submitButton:active {
-  transform: translateY(0);
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  transform: scale(1.02);
 }
 
 .dashboardButton {
@@ -81,6 +77,15 @@
 
 .dashboardButton:hover {
   background-color: #0056b3;
+}
+
+.backArrow {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #4CAF50;
 }
 
 @media (max-width: 600px) {

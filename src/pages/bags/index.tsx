@@ -1,29 +1,39 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from './bags.module.css';
-import Image from 'next/image';
+import { FaArrowLeft } from 'react-icons/fa';
 
 const ReportFoundBag = () => {
-  const [color, setColor] = useState('');
-  const [type, setType] = useState('');
+  const [primaryColor, setPrimaryColor] = useState('');
+  const [secondaryColor, setSecondaryColor] = useState('');
+  const [category, setCategory] = useState('');
+  const [subCategory, setSubCategory] = useState('');
+  const [brand, setBrand] = useState('');
+  const [model, setModel] = useState('');
+  const [serialNumber, setSerialNumber] = useState('');
   const [contents, setContents] = useState('');
   const [idProof, setIdProof] = useState('');
-  const [imageFile, setImageFile] = useState<File | null>(null);
   const [foundLocation, setFoundLocation] = useState('');
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
     const formData = new FormData();
-    formData.append('color', color);
-    formData.append('type', type);
+    formData.append('primary_color', primaryColor);
+    formData.append('secondary_color', secondaryColor);
+    formData.append('category', category);
+    formData.append('sub_category', subCategory);
+    formData.append('brand', brand);
+    formData.append('model', model);
+    formData.append('serial_number', serialNumber);
     formData.append('contents', contents);
     formData.append('id_proof', idProof);
     formData.append('found_location', foundLocation);
 
     if (imageFile) {
-      formData.append('image', imageFile); 
+      formData.append('image', imageFile);
     }
 
     try {
@@ -38,7 +48,7 @@ const ReportFoundBag = () => {
       if (response.ok) {
         alert('Bag reported successfully.');
         resetForm();
-        router.push('/dashboard'); // Redirect to dashboard on success
+        router.push('/dashboard');
       } else {
         const errorData = await response.json();
         alert(`Failed to report the bag: ${errorData.message}`);
@@ -50,45 +60,129 @@ const ReportFoundBag = () => {
   };
 
   const resetForm = () => {
-    setColor('');
-    setType('');
+    setPrimaryColor('');
+    setSecondaryColor('');
+    setCategory('');
+    setSubCategory('');
+    setBrand('');
+    setModel('');
+    setSerialNumber('');
     setContents('');
     setIdProof('');
-    setImageFile(null);
     setFoundLocation('');
+    setImageFile(null);
   };
 
-  const handleGoToDashboard = () => {
-    router.push('/dashboard'); 
+  const handleGoBack = () => {
+    router.push('/dashboard');
   };
+
+  const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif', 'eps', 'pdf', 'jfif'];
+  const fileSizeLimit = 4 * 1024 * 1024;  
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setImageFile(e.target.files[0]);
-      console.log(e.target.files[0]);
-      
+      const file = e.target.files[0];
+      const fileExtension = file.name.split('.').pop()?.toLowerCase();
+      const isExtensionValid = fileExtension && allowedExtensions.includes(fileExtension);
+      const isFileSizeValid = file.size <= fileSizeLimit;
+
+      if (!isExtensionValid) {
+        alert(`Invalid file type. Allowed types: ${allowedExtensions.join(', ')}`);
+        return;
+      }
+
+      if (!isFileSizeValid) {
+        alert('File size exceeds the limit of 4 MB.');
+        return;
+      }
+
+      setImageFile(file);
     }
   };
 
+  const bagCategories = ['Backpack', 'Suitcase', 'Duffel Bag', 'Tote Bag', 'Messenger Bag', 'Briefcase', 'Handbag'];
+  const bagSubCategories = ['Small', 'Medium', 'Large']; 
+  const colors = ['Black', 'Blue', 'Red', 'Green', 'Yellow', 'Brown', 'White', 'Gray', 'Purple', 'Pink'];
+
   return (
     <div className={styles.container}>
+      <div className={styles.backArrow} onClick={handleGoBack}>
+        <FaArrowLeft />
+      </div>
       <form onSubmit={handleSubmit} className={styles.formContainer}>
         <h2 className={styles.heading}>Report a Found Bag</h2>
-        <input
-          type="text"
-          placeholder="Color"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
+        <select
+          value={primaryColor}
+          onChange={(e) => setPrimaryColor(e.target.value)}
           className={styles.inputField}
           required
+        >
+          <option value="" disabled>Select Primary Color</option>
+          {colors.map((colorOption) => (
+            <option key={colorOption} value={colorOption}>
+              {colorOption}
+            </option>
+          ))}
+        </select>
+        <select
+          value={secondaryColor}
+          onChange={(e) => setSecondaryColor(e.target.value)}
+          className={styles.inputField}
+        >
+          <option value="" disabled>Select Secondary Color (optional)</option>
+          {colors.map((colorOption) => (
+            <option key={colorOption} value={colorOption}>
+              {colorOption}
+            </option>
+          ))}
+        </select>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className={styles.inputField}
+          required
+        >
+          <option value="" disabled>Select Category</option>
+          {bagCategories.map((categoryOption) => (
+            <option key={categoryOption} value={categoryOption}>
+              {categoryOption}
+            </option>
+          ))}
+        </select>
+        <select
+          value={subCategory}
+          onChange={(e) => setSubCategory(e.target.value)}
+          className={styles.inputField}
+          required
+        >
+          <option value="" disabled>Select Sub-Category</option>
+          {bagSubCategories.map((subCategoryOption) => (
+            <option key={subCategoryOption} value={subCategoryOption}>
+              {subCategoryOption}
+            </option>
+          ))}
+        </select>
+        <input
+          type="text"
+          placeholder="Brand (optional)"
+          value={brand}
+          onChange={(e) => setBrand(e.target.value)}
+          className={styles.inputField}
         />
         <input
           type="text"
-          placeholder="Type"
-          value={type}
-          onChange={(e) => setType(e.target.value)}
+          placeholder="Model (optional)"
+          value={model}
+          onChange={(e) => setModel(e.target.value)}
           className={styles.inputField}
-          required
+        />
+        <input
+          type="text"
+          placeholder="Serial Number (optional)"
+          value={serialNumber}
+          onChange={(e) => setSerialNumber(e.target.value)}
+          className={styles.inputField}
         />
         <textarea
           placeholder="Contents (optional)"
@@ -118,10 +212,6 @@ const ReportFoundBag = () => {
         />
         <button type="submit" className={styles.submitButton}>Submit</button>
       </form>
-
-      <button onClick={handleGoToDashboard} className={styles.dashboardButton}>
-        Go to Dashboard
-      </button>
     </div>
   );
 };

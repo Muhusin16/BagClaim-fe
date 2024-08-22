@@ -34,34 +34,44 @@ const Register = () => {
     }
   };
   
+  const handleLoginRedirect = () => {
+    router.push('/login');
+  };
+
   return (
-    <form className={styles.registerForm} onSubmit={handleSubmit}>
-      <input 
-        type="text" 
-        placeholder="Username" 
-        value={username} 
-        onChange={(e) => setUsername(e.target.value)} 
-        required 
-        className={styles.inputBox} 
-      /> 
-      <input 
-        type="email" 
-        placeholder="Email" 
-        value={email} 
-        onChange={(e) => setEmail(e.target.value)} 
-        required 
-        className={styles.inputBox} 
-      /> 
-      <input 
-        type="password" 
-        placeholder="Password" 
-        value={password} 
-        onChange={(e) => setPassword(e.target.value)} 
-        required 
-        className={styles.inputBox} 
-      /> 
-      <button type="submit" className={styles.btn}>Register</button>
-    </form>
+    <div className={styles.container}>
+      <form className={styles.registerForm} onSubmit={handleSubmit}>
+        <h2 className={styles.heading}>Register</h2>
+        <input 
+          type="text" 
+          placeholder="Username" 
+          value={username} 
+          onChange={(e) => setUsername(e.target.value)} 
+          required 
+          className={styles.inputBox} 
+        /> 
+        <input 
+          type="email" 
+          placeholder="Email" 
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)} 
+          required 
+          className={styles.inputBox} 
+        /> 
+        <input 
+          type="password" 
+          placeholder="Password" 
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)} 
+          required 
+          className={styles.inputBox} 
+        /> 
+        <button type="submit" className={styles.btn}>Register</button>
+      </form>
+      <button onClick={handleLoginRedirect} className={styles.loginBtn}>
+        Already have an account? Login here
+      </button>
+    </div>
   );
 };
 

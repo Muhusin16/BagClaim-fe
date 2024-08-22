@@ -1,25 +1,34 @@
-// pages/dashboard.tsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Navbar from "@/app/navbar";
 import styles from './Dashboard.module.css';
 
 interface Bag {
   id: number;
-  color: string;
-  type: string;
+  primary_color: string;
+  category: string;
   found_location: string;
-  contents?: string;
-  image_url?: string;
+}
+
+// Debounce function to limit the rate at which a function can fire
+function debounce(func: Function, delay: number) {
+  let timer: NodeJS.Timeout;
+  return (...args: any[]) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
 }
 
 const Dashboard = () => {
   const [bags, setBags] = useState<Bag[]>([]);
   const [searchParams, setSearchParams] = useState({
-    color: '',
-    type: '',
+    primary_color: '',
+    category: '',
     found_location: ''
   });
+
   const router = useRouter();
 
   const fetchBags = async () => {
@@ -29,9 +38,12 @@ const Dashboard = () => {
     setBags(data);
   };
 
+  // Debounced version of the fetchBags function
+  const debounceFetchBags = useCallback(debounce(fetchBags, 300), [searchParams]);
+
   useEffect(() => {
-    fetchBags();
-  }, [searchParams]);
+    debounceFetchBags();
+  }, [searchParams, debounceFetchBags]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchParams({
@@ -58,24 +70,24 @@ const Dashboard = () => {
         <form className={styles.form} onSubmit={handleSearchSubmit}>
           <input
             type="text"
-            name="color"
+            name="primary_color"
             placeholder="Search by color"
-            value={searchParams.color}
+            value={searchParams.primary_color}
             onChange={handleSearchChange}
             className={styles.input}
           />
           <input
             type="text"
-            name="type"
-            placeholder="Search by type"
-            value={searchParams.type}
+            name="category"
+            placeholder="Search by category"
+            value={searchParams.category}
             onChange={handleSearchChange}
             className={styles.input}
           />
           <input
             type="text"
             name="found_location"
-            placeholder="Search by location"
+            placeholder="Search by found location"
             value={searchParams.found_location}
             onChange={handleSearchChange}
             className={styles.input}
@@ -88,7 +100,7 @@ const Dashboard = () => {
             <ul>
               {bags.map((bag) => (
                 <li key={bag.id} className={styles.listItem}>
-                  <strong>{bag.color} {bag.type}</strong> - Found at: {bag.found_location}
+                  <strong>{bag.primary_color} {bag.category}</strong> - Found at: {bag.found_location}
                   <br />
                   <button
                     onClick={() => handleViewDetails(bag.id)}

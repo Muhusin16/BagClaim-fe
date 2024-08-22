@@ -1,84 +1,160 @@
-/* bag-details.module.css */
+/* General container styling */
 .container {
-    padding: 20px;
-    max-width: 700px;
-    margin: 0 auto;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-  }
-  
-  .heading {
-    font-size: 26px;
-    font-weight: 600;
-    margin-bottom: 15px;
-    color: #333;
-  }
-  
-  .p {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 10px;
-  }
-  
-  .image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 15px;
-  }
-  
-  .textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 19px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    resize: vertical;
-    font-size: 16px;
-  }
-  
-  .reclaimButton {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-  }
-  
-  .reclaimButton:hover {
-    background-color: #218838;
-  }
-  
-  .dashboardButton {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-    
-    transition: background-color 0.3s;
-  }
-  
-  .dashboardButton:hover {
-    background-color: #0056b3;
-  }
-  
-  .imageContainer {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  .image {
-    max-width: 100%;
-    height: auto;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
+  padding: 20px;
+  max-width: 700px;
+  margin: 0 auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+/* Heading styling */
+.heading {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* Paragraph styling */
+.p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+/* Image styling */
+.image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* Textarea styling */
+.textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 19px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  resize: vertical;
+  font-size: 16px;
+}
+
+/* Button container styling */
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between buttons */
+}
+
+/* Button styling */
+.reclaimButton,
+.editButton,
+.deleteButton,
+.updateButton,
+.cancelButton,
+.dashboardButton {
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  width: 100%; /* Full width */
+  border: none; /* Remove default border */
+}
+
+/* Reclaim button styling */
+.reclaimButton {
+  background-color: #28a745;
+  color: white;
+}
+
+.reclaimButton:hover {
+  background-color: #218838;
+}
+
+/* Edit button styling */
+.editButton {
+  background-color: #ffc107;
+  color: white;
+}
+
+.editButton:hover {
+  background-color: #e0a800;
+}
+
+/* Delete button styling */
+.deleteButton {
+  background-color: #dc3545;
+  color: white;
+}
+
+.deleteButton:hover {
+  background-color: #c82333;
+}
+
+/* Update button styling */
+.updateButton {
+  background-color: #007bff;
+  color: white;
+}
+
+.updateButton:hover {
+  background-color: #0056b3;
+}
+
+/* Cancel button styling */
+.cancelButton {
+  background-color: #6c757d;
+  color: white;
+}
+
+.cancelButton:hover {
+  background-color: #5a6268;
+}
+
+/* Dashboard button styling */
+.dashboardButton {
+  background-color: #007bff;
+  color: white;
+}
+
+.dashboardButton:hover {
+  background-color: #0056b3;
+}
+
+/* Image container styling */
+.imageContainer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Edit container styling */
+.editContainer {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+}
+
+/* Input field styling */
+.input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+/* Styling for the container holding buttons */
+.buttonContainer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
